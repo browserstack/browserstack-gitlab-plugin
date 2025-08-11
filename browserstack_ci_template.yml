@@ -120,10 +120,7 @@
           local error_message
     
           status_code=$(echo "$response" | jq -r '.status_code')
-          # todo-remove
-          echo "Response Status Code in check_report_status: $status_code"
           body=$(echo "$response" | jq -r '.body')
-          echo "Response body in check_report_status: $body"
     
           if [[ $status_code -ne 200 ]]; then
               echo "Error: API returned status code $status_code"
