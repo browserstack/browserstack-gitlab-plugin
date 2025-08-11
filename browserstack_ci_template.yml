@@ -120,7 +120,10 @@
           local error_message
     
           status_code=$(echo "$response" | jq -r '.status_code')
+          # todo-remove
+          echo "Response Status Code in check_report_status: $status_code"
           body=$(echo "$response" | jq -r '.body')
+          echo "Response body in check_report_status: $body"
     
           if [[ $status_code -ne 200 ]]; then
               echo "Error: API returned status code $status_code"
@@ -143,11 +146,7 @@
     
       # Initial API Request
       RESPONSE=$(make_api_request "FIRST")
-      check_report_status "$RESPONSE"
-      report_status_return=$?
-      if [[ report_status_return -eq 1 ]]; then
-        exit 0
-      fi
+      check_report_status "$RESPONSE" || true
       RETRY_COUNT=$(echo "$RESPONSE" | jq -r '.body.retryCount // 3')
       POLLING_DURATION=$(echo "$RESPONSE" | jq -r '.body.pollingInterval // 3')
     
