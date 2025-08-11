@@ -194,7 +194,7 @@
       </head>
       $rich_html_response
       </html>" > browserstack/testreport.html
-        echo "Rich html report saved as browserstack/testreport.html. To view the report, open artifacts tab & click on testreport.html"
+        echo "Rich html report saved as browserstack/testreport.html. To download the report, open artifacts tab & go to a job which extends set_browserstack_test_report job."
     
         # Generate plain text report
         if [[ -n "$plain_text_response" ]]; then
