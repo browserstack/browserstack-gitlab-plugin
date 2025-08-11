@@ -1,7 +1,7 @@
 .set_browserstack_config:
   image: alpine:latest
   script: |
-    echo "Setting config vars..."
+    echo "Setting Browserstack Config vars..."
     
     # Validate required variables
     if [ -z "$BROWSERSTACK_USERNAME" ]; then
@@ -17,14 +17,14 @@
     # Construct dynamic build name
     export BROWSERSTACK_BUILD_NAME="gitlab-ci-${CI_PROJECT_NAME}-${CI_PIPELINE_IID}"
     
-    # Write to browserstack_envvars.env
-    echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > browserstack_envvars.env
-    echo "BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}" >> browserstack_envvars.env
-    echo "BROWSERSTACK_BUILD_NAME=${BROWSERSTACK_BUILD_NAME}" >> browserstack_envvars.env
-    cat browserstack_envvars.env
+    # Write to browserstack_vars.env
+    echo "BROWSERSTACK_USERNAME=${BROWSERSTACK_USERNAME}" > browserstack_vars.env
+    echo "BROWSERSTACK_ACCESS_KEY=${BROWSERSTACK_ACCESS_KEY}" >> browserstack_vars.env
+    echo "BROWSERSTACK_BUILD_NAME=${BROWSERSTACK_BUILD_NAME}" >> browserstack_vars.env
+    cat browserstack_vars.env
   artifacts:
     paths:
-      - browserstack_envvars.env
+      - browserstack_vars.env
 
 .set_browserstack_test_report:
   image: alpine:latest
@@ -33,7 +33,7 @@
     apk add --no-cache bash curl jq
     bash <<'EOF'
       #!/bin/bash
-      source browserstack_envvars.env
+      source browserstack_vars.env
       API_PATH="https://api-observability.browserstack.com/ext/v1/builds/buildReport"
       REPORT_STATUS_COMPLETED="COMPLETED"
       REPORT_STATUS_NOT_AVAILABLE="NOT_AVAILABLE"
